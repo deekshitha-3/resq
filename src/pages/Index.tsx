@@ -7,7 +7,7 @@ import Logo from '@/components/Logo';
 import SOSButton from '@/components/SOSButton';
 import EmergencyForm from '@/components/EmergencyForm';
 import LocationMap from '@/components/LocationMap';
-import { supabase } from '@/lib/supabase';
+import { supabase, getRandomIndianLocation } from '@/lib/supabase';
 
 const Index = () => {
   const [disasterType, setDisasterType] = useState<string>('');
@@ -36,6 +36,9 @@ const Index = () => {
         imageUrl = `https://picsum.photos/seed/${Math.floor(Math.random() * 1000)}/500/300`;
       }
       
+      // Generate a random Indian location
+      const location = getRandomIndianLocation();
+      
       // Create a new post in Supabase
       const { error } = await supabase
         .from('posts')
@@ -44,6 +47,7 @@ const Index = () => {
             disaster_type: disasterType, 
             message: message || null, 
             image_url: imageUrl, 
+            location: location,
             created_at: new Date().toISOString() 
           }
         ]);

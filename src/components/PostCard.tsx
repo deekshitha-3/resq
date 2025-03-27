@@ -4,6 +4,7 @@ import { Post } from '@/lib/supabase';
 import { formatDistanceToNow } from 'date-fns';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import { MapPin } from 'lucide-react';
 
 interface PostCardProps {
   post: Post;
@@ -59,7 +60,11 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
         )}
       </CardContent>
       
-      <CardFooter className="pt-2 pb-4 px-4">
+      <CardFooter className="pt-2 pb-4 px-4 flex flex-col items-start">
+        <div className="flex items-center text-xs text-gray-500 mb-1">
+          <MapPin className="h-3 w-3 mr-1" />
+          <span>{post.location}</span>
+        </div>
         <p className="text-xs text-gray-500">{getRelativeTime(post.created_at)}</p>
       </CardFooter>
     </Card>

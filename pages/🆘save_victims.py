@@ -62,7 +62,7 @@ def main():
   st.title("Save Flood Victims 🆘")
   st.subheader("Flood victims dected by our model")
 
-  higherClass=['level 5','level 6', 'level 7', 'level 8', 'level 9', 'level 10', 'level 11', 'level 12']
+  higherClass=['level4', 'level 5','level 6', 'level 7', 'level 8', 'level 9', 'level 10', 'level 11', 'level 12']
 
   api_key = st.text_input("Enter API Key", type='password')
   uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "png", "jpeg"])
@@ -91,17 +91,36 @@ def main():
           st.write(f"**Animals detected: {animal}**")
           st.divider()
          if level_predictions:
+          # Simplified logic to show flood level
+          found_level = False
+          flood_detected = False
+          
+          # Process all predictions to determine status
+          high_levels = []
+          low_levels = []
+          
           for entity in level_predictions:
-            # st.write(entity['class'])
-            if entity['class'] == 'flood':
-               st.subheader("**Flood is detected**")
-            elif entity['class'] in higherClass:
-               st.subheader(f"High level of Flood Detected: :red[{entity['class']}]")
-            else:
-               st.subheader(f"Low Flood levels detected: :green[{entity['class']}]")
-            
+              level_class = entity['class']
+              
+              if level_class in higherClass:
+                  high_levels.append(level_class)
+              elif level_class.startswith('level'):
+                  low_levels.append(level_class)
+              elif level_class == 'flood':
+                  flood_detected = True
+          
+          # Display results with priority (high levels first, then low, then general flood)
+          if high_levels:
+              st.subheader(f"High level of Flood Detected: :red[{high_levels[0]}]")
+              found_level = True
+          elif low_levels:
+              st.subheader(f"Low Flood levels detected: :green[{low_levels[0]}]")
+              found_level = True
+          elif flood_detected:
+              st.subheader("**Flood is detected**")
      else:
         st.error("Add Valid Roboflow API Key")
+
 
 if __name__ == "__main__":
     main()

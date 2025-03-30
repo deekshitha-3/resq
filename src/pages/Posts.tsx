@@ -47,7 +47,14 @@ const Posts = () => {
         table: 'posts' 
       }, (payload) => {
         if (payload.eventType === 'INSERT') {
-          setPosts(prev => [payload.new as Post, ...prev]);
+          // Make sure we don't use blob URLs for new posts
+          const newPost = payload.new as Post;
+          if (newPost.image_url && newPost.image_url.startsWith('blob:')) {
+            // For real-time updates, we should process the image properly
+            // For this demo, we'll use a placeholder
+            newPost.image_url = '/placeholder.svg';
+          }
+          setPosts(prev => [newPost, ...prev]);
         }
       })
       .subscribe();

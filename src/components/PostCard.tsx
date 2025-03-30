@@ -40,6 +40,19 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
     setShowMap(!showMap);
   };
 
+  // Function to determine if an image URL is valid
+  const getValidImageUrl = (url: string | null) => {
+    if (!url) return null;
+    
+    // Check if it's a blob URL (which won't persist after page refresh)
+    if (url.startsWith('blob:')) {
+      // Return a placeholder image instead
+      return '/placeholder.svg';
+    }
+    
+    return url;
+  };
+
   return (
     <Card className="mb-4 overflow-hidden hover:shadow-md transition-shadow animate-fade-in">
       <CardContent className="p-0">
@@ -54,7 +67,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
         {post.image_url && (
           <div className="w-full h-48 overflow-hidden">
             <img 
-              src={post.image_url} 
+              src={getValidImageUrl(post.image_url)} 
               alt={`${post.disaster_type} incident`} 
               className="w-full h-full object-cover"
             />

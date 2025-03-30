@@ -6,7 +6,7 @@ st.markdown("The solution utilizes satellite imagery, particularly NOAA-20 satel
 st.divider()
 st.subheader("Results")
 st.markdown("**Accuracy of our model:** 94.23%")
-st.image('./assets/wildfire/results.png')
+st.image('./assets/results.png')
 
 st.divider()
 st.subheader("How our model detect wildfires using satellite imagery?")

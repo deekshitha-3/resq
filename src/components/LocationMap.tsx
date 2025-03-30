@@ -4,17 +4,28 @@ import { MapPin, Navigation } from 'lucide-react';
 
 interface LocationMapProps {
   disasterType: string;
+  isPostPage?: boolean; // New prop to identify if this is being used on Posts page
 }
 
-const LocationMap: React.FC<LocationMapProps> = ({ disasterType }) => {
+const LocationMap: React.FC<LocationMapProps> = ({ disasterType, isPostPage = false }) => {
   const [coordinates, setCoordinates] = useState<{ lat: number; lng: number } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [direction, setDirection] = useState('');
+  const [distance, setDistance] = useState('');
 
   useEffect(() => {
     // Simulate getting coordinates
     const timer = setTimeout(() => {
       setCoordinates({ lat: 37.7749, lng: -122.4194 });
       setIsLoading(false);
+      
+      // Generate random direction and distance
+      const directions = ['North', 'South', 'East', 'West', 'Northeast', 'Northwest', 'Southeast', 'Southwest'];
+      const randomDirection = directions[Math.floor(Math.random() * directions.length)];
+      const randomDistance = Math.floor(Math.random() * 1000) + 100; // 100-1100 meters
+      
+      setDirection(randomDirection);
+      setDistance(`${randomDistance}m`);
     }, 1000);
 
     return () => clearTimeout(timer);
@@ -57,23 +68,25 @@ const LocationMap: React.FC<LocationMapProps> = ({ disasterType }) => {
               </div>
             </div>
 
-            <div className="bg-resq-blue/10 p-4 rounded-lg border border-resq-blue/20">
-              <div className="flex items-center space-x-2">
-                <Navigation className="h-5 w-5 text-resq-blue" />
-                <span className="font-medium text-sm">Nearest shelter found!</span>
-              </div>
-              <p className="text-sm text-gray-600 mt-1">Our team will reach you in a few minutes.</p>
-              <div className="mt-2 pt-2 border-t border-resq-blue/10">
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-500">Distance:</span>
-                  <span className="font-medium">0.8 miles</span>
+            {!isPostPage && (
+              <div className="bg-resq-blue/10 p-4 rounded-lg border border-resq-blue/20">
+                <div className="flex items-center space-x-2">
+                  <Navigation className="h-5 w-5 text-resq-blue" />
+                  <span className="font-medium text-sm">Nearest shelter found!</span>
                 </div>
-                <div className="flex justify-between text-sm mt-1">
-                  <span className="text-gray-500">Direction:</span>
-                  <span className="font-medium">Northeast</span>
+                <p className="text-sm text-gray-600 mt-1">Our team will reach you in a few minutes.</p>
+                <div className="mt-2 pt-2 border-t border-resq-blue/10">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-500">Distance:</span>
+                    <span className="font-medium">{distance}</span>
+                  </div>
+                  <div className="flex justify-between text-sm mt-1">
+                    <span className="text-gray-500">Direction:</span>
+                    <span className="font-medium">{direction}</span>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </>
         ) : (
           <>
@@ -96,18 +109,20 @@ const LocationMap: React.FC<LocationMapProps> = ({ disasterType }) => {
               </div>
             </div>
 
-            <div className="bg-orange-50 p-4 rounded-lg border border-orange-200">
-              <div className="flex items-center space-x-2">
-                <Navigation className="h-5 w-5 text-orange-500" />
-                <span className="font-medium text-sm">Your live location is shared!</span>
+            {!isPostPage && (
+              <div className="bg-orange-50 p-4 rounded-lg border border-orange-200">
+                <div className="flex items-center space-x-2">
+                  <Navigation className="h-5 w-5 text-orange-500" />
+                  <span className="font-medium text-sm">Your live location is shared!</span>
+                </div>
+                <p className="text-sm font-medium text-orange-700 mt-2">
+                  Move towards a safer place.
+                </p>
+                <p className="text-sm text-gray-600 mt-3">
+                  Our team will reach you in a few minutes.
+                </p>
               </div>
-              <p className="text-sm font-medium text-orange-700 mt-2">
-                Move towards a safer place.
-              </p>
-              <p className="text-sm text-gray-600 mt-3">
-                Our team will reach you in a few minutes.
-              </p>
-            </div>
+            )}
           </>
         )}
       </div>

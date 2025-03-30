@@ -84,7 +84,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
         
         {showMap && (
           <div className="w-full mt-3">
-            <LocationMap disasterType={post.disaster_type} />
+            <LocationMap disasterType={post.disaster_type} isPostPage={true} />
             <Button 
               variant="outline" 
               size="sm" 

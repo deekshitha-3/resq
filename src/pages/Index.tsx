@@ -32,8 +32,9 @@ const Index = () => {
         const fileName = `${Math.random()}.${fileExt}`;
         const filePath = `posts/${fileName}`;
         
-        // For demo purposes, we're simulating image upload
-        imageUrl = `https://picsum.photos/seed/${Math.floor(Math.random() * 1000)}/500/300`;
+        // For demo purposes, we're simulating image upload but using the actual file
+        // In a production app, you would upload to Supabase storage
+        imageUrl = URL.createObjectURL(image);
       }
       
       // Generate a random Indian location

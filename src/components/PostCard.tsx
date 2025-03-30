@@ -1,16 +1,20 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Post } from '@/lib/supabase';
 import { formatDistanceToNow } from 'date-fns';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { MapPin } from 'lucide-react';
+import LocationMap from '@/components/LocationMap';
 
 interface PostCardProps {
   post: Post;
 }
 
 const PostCard: React.FC<PostCardProps> = ({ post }) => {
+  const [showMap, setShowMap] = useState(false);
+  
   // Format the disaster type for display
   const formatDisasterType = (type: string) => {
     switch (type) {
@@ -30,6 +34,10 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
     } catch (e) {
       return 'recently';
     }
+  };
+
+  const toggleMap = () => {
+    setShowMap(!showMap);
   };
 
   return (
@@ -61,11 +69,32 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
       </CardContent>
       
       <CardFooter className="pt-2 pb-4 px-4 flex flex-col items-start">
-        <div className="flex items-center text-xs text-gray-500 mb-1">
-          <MapPin className="h-3 w-3 mr-1" />
-          <span>{post.location}</span>
+        <div className="flex items-center text-xs text-gray-500 mb-1 w-full">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="p-0 h-auto text-xs flex items-center text-gray-500 hover:text-resq-blue"
+            onClick={toggleMap}
+          >
+            <MapPin className="h-3 w-3 mr-1" />
+            <span>{post.location}</span>
+          </Button>
+          <span className="ml-auto">{getRelativeTime(post.created_at)}</span>
         </div>
-        <p className="text-xs text-gray-500">{getRelativeTime(post.created_at)}</p>
+        
+        {showMap && (
+          <div className="w-full mt-3">
+            <LocationMap disasterType={post.disaster_type} />
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="w-full mt-2 text-xs"
+              onClick={toggleMap}
+            >
+              Close Map
+            </Button>
+          </div>
+        )}
       </CardFooter>
     </Card>
   );

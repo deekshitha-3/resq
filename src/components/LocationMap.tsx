@@ -9,22 +9,12 @@ interface LocationMapProps {
 const LocationMap: React.FC<LocationMapProps> = ({ disasterType }) => {
   const [coordinates, setCoordinates] = useState<{ lat: number; lng: number } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [direction, setDirection] = useState("");
-  const [distance, setDistance] = useState("");
 
   useEffect(() => {
     // Simulate getting coordinates
     const timer = setTimeout(() => {
       setCoordinates({ lat: 37.7749, lng: -122.4194 });
       setIsLoading(false);
-      
-      // Generate random direction and distance
-      const directions = ["North", "South", "East", "West", "Northeast", "Northwest", "Southeast", "Southwest"];
-      const randomDirection = directions[Math.floor(Math.random() * directions.length)];
-      const randomDistance = Math.floor(Math.random() * 500) + 100; // Random distance between 100-600m
-      
-      setDirection(randomDirection);
-      setDistance(`${randomDistance}m`);
     }, 1000);
 
     return () => clearTimeout(timer);
@@ -46,9 +36,6 @@ const LocationMap: React.FC<LocationMapProps> = ({ disasterType }) => {
             <MapPin className="h-5 w-5 text-green-600" />
           </div>
           <h2 className="text-lg font-semibold text-resq-dark">Your Live location shared</h2>
-          <p className="text-sm text-gray-500 mt-1">
-            {direction && distance && `${direction} · ${distance}`}
-          </p>
         </div>
 
         {disasterType === 'floods' ? (

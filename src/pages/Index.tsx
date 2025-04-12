@@ -1,7 +1,6 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { MessageSquare, X, RocketLaunch } from 'lucide-react';
+import { MessageSquare, X, Rocket } from 'lucide-react';
 import { toast } from 'sonner';
 import Logo from '@/components/Logo';
 import SOSButton from '@/components/SOSButton';
@@ -26,22 +25,17 @@ const Index = () => {
     setLoading(true);
     
     try {
-      // Upload image if provided
       let imageUrl = null;
       if (image) {
         const fileExt = image.name.split('.').pop();
         const fileName = `${Math.random()}.${fileExt}`;
         const filePath = `posts/${fileName}`;
         
-        // For demo purposes, we're simulating image upload but using the actual file
-        // In a production app, you would upload to Supabase storage
         imageUrl = URL.createObjectURL(image);
       }
       
-      // Generate a random Indian location
       const location = getRandomIndianLocation();
       
-      // Create a new post in Supabase
       const { error } = await supabase
         .from('posts')
         .insert([
@@ -56,7 +50,6 @@ const Index = () => {
       
       if (error) throw error;
       
-      // Simulate location sharing and processing
       setTimeout(() => {
         setLoading(false);
         setSosPressed(true);
@@ -65,7 +58,6 @@ const Index = () => {
     } catch (error) {
       console.error('Error saving post:', error);
       setLoading(false);
-      // Still show location but inform about post failure
       setSosPressed(true);
       toast.error('Location shared, but failed to save incident post');
     }
@@ -81,9 +73,8 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-resq-light pb-20">
       <div className="container-responsive py-6">
-        {/* Header */}
         <div className="flex justify-between items-center mb-8">
-          <div className="w-10"></div> {/* Spacer for alignment */}
+          <div className="w-10"></div>
           <Logo />
           <Link 
             to="/posts" 
@@ -95,7 +86,6 @@ const Index = () => {
           </Link>
         </div>
 
-        {/* Main Content */}
         <div className="glass-card rounded-2xl p-6 shadow-md mb-8">
           {sosPressed ? (
             <>
@@ -121,15 +111,14 @@ const Index = () => {
             </>
           )}
         </div>
-        
-        {/* AI Models Button */}
+
         <div className="flex justify-center">
           <Link to="/models">
             <Button 
               variant="default" 
               className="bg-resq-blue hover:bg-resq-blue/90 text-white rounded-full px-6 py-2 flex items-center gap-2 shadow-md"
             >
-              <RocketLaunch className="h-4 w-4" />
+              <Rocket className="h-4 w-4" />
               <span>Explore Our AI Models</span>
             </Button>
           </Link>

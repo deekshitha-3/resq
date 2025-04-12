@@ -116,9 +116,9 @@ const Index = () => {
           <Link to="/models">
             <Button 
               variant="default" 
-              className="bg-resq-blue hover:bg-resq-blue/90 text-white rounded-full px-6 py-2 flex items-center gap-2 shadow-md"
+              className="bg-resq-blue hover:bg-resq-blue/90 text-white rounded-full px-8 py-3 flex items-center gap-2 shadow-md text-lg"
             >
-              <Rocket className="h-4 w-4" />
+              <Rocket className="h-5 w-5" />
               <span>Explore Our AI Models</span>
             </Button>
           </Link>

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Droplets } from 'lucide-react';
+import { ArrowLeft, Droplet } from 'lucide-react';
 import Logo from '@/components/Logo';
 
 const FloodDetection = () => {
@@ -24,7 +24,7 @@ const FloodDetection = () => {
         {/* Main Content */}
         <div className="glass-card rounded-2xl p-6 shadow-md">
           <div className="flex flex-col items-center mb-8">
-            <Droplets className="h-12 w-12 text-sky-600 mb-2" />
+            <Droplet className="h-12 w-12 text-sky-600 mb-2" />
             <h1 className="text-2xl font-bold text-center mb-1">Floods Masking and Segmentation Model 🌊</h1>
           </div>
 

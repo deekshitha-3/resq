@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ExternalLink, ArrowLeft, Brain, Droplets, Flame, Users } from 'lucide-react';
+import { ExternalLink, ArrowLeft, Brain, Droplet, Flame, Users } from 'lucide-react';
 import Logo from '@/components/Logo';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -27,7 +27,7 @@ const ResqModels = () => {
         <div className="glass-card rounded-2xl p-6 shadow-md mb-8">
           <div className="flex flex-col items-center mb-8">
             <Brain className="h-12 w-12 text-resq-blue mb-2" />
-            <h1 className="text-2xl font-bold text-center mb-1">ResQ ML Models</h1>
+            <h1 className="text-2xl font-bold text-center mb-1">ResQ AI Models</h1>
             <p className="text-gray-600 text-center">
               Disaster detection powered by machine learning
             </p>
@@ -38,7 +38,7 @@ const ResqModels = () => {
             <Link to="/models/flood-detection">
               <Card className="hover:shadow-lg transition-shadow cursor-pointer overflow-hidden">
                 <div className="bg-sky-100 p-4 flex justify-center">
-                  <Droplets className="h-12 w-12 text-sky-600" />
+                  <Droplet className="h-12 w-12 text-sky-600" />
                 </div>
                 <CardContent className="p-4 text-center">
                   <h3 className="font-semibold text-lg mb-2">Flood Detection</h3>
@@ -64,10 +64,6 @@ const ResqModels = () => {
                   <p className="text-sm text-gray-600">
                     AI-powered detection of people in disaster zones
                   </p>
-                  <div className="flex items-center justify-center mt-2 text-xs text-gray-500">
-                    <ExternalLink className="h-3 w-3 mr-1" />
-                    <span>External link</span>
-                  </div>
                 </CardContent>
               </Card>
             </a>
@@ -92,7 +88,7 @@ const ResqModels = () => {
             <p className="mb-4">
               Check out our trained model code on GitHub 👉{" "}
               <a
-                href="https://github.com"
+                href="https://github.com/deekshitha-3/resq-model"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-resq-blue hover:underline font-medium inline-flex items-center"

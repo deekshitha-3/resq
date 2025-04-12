@@ -1,13 +1,14 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { MessageSquare, X } from 'lucide-react';
+import { MessageSquare, X, RocketLaunch } from 'lucide-react';
 import { toast } from 'sonner';
 import Logo from '@/components/Logo';
 import SOSButton from '@/components/SOSButton';
 import EmergencyForm from '@/components/EmergencyForm';
 import LocationMap from '@/components/LocationMap';
 import { supabase, getRandomIndianLocation } from '@/lib/supabase';
+import { Button } from '@/components/ui/button';
 
 const Index = () => {
   const [disasterType, setDisasterType] = useState<string>('');
@@ -95,7 +96,7 @@ const Index = () => {
         </div>
 
         {/* Main Content */}
-        <div className="glass-card rounded-2xl p-6 shadow-md">
+        <div className="glass-card rounded-2xl p-6 shadow-md mb-8">
           {sosPressed ? (
             <>
               <div className="flex justify-end mb-4">
@@ -119,6 +120,19 @@ const Index = () => {
               <SOSButton onClick={handleSOS} isLoading={loading} />
             </>
           )}
+        </div>
+        
+        {/* AI Models Button */}
+        <div className="flex justify-center">
+          <Link to="/models">
+            <Button 
+              variant="default" 
+              className="bg-resq-blue hover:bg-resq-blue/90 text-white rounded-full px-6 py-2 flex items-center gap-2 shadow-md"
+            >
+              <RocketLaunch className="h-4 w-4" />
+              <span>Explore Our AI Models</span>
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

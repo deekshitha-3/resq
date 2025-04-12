@@ -8,6 +8,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Posts from "./pages/Posts";
 import NotFound from "./pages/NotFound";
+import ResqModels from "./pages/ResqModels";
+import FloodDetection from "./pages/FloodDetection";
+import WildfireDetection from "./pages/WildfireDetection";
 
 // Create a client
 const queryClient = new QueryClient();
@@ -23,6 +26,9 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/posts" element={<Posts />} />
+            <Route path="/models" element={<ResqModels />} />
+            <Route path="/models/flood-detection" element={<FloodDetection />} />
+            <Route path="/models/wildfire-detection" element={<WildfireDetection />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

@@ -5,7 +5,7 @@ import { formatDistanceToNow } from 'date-fns';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { MapPin } from 'lucide-react';
+import { MapPin, Droplet, Flame } from 'lucide-react';
 import LocationMap from '@/components/LocationMap';
 
 interface PostCardProps {
@@ -19,9 +19,17 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
   const formatDisasterType = (type: string) => {
     switch (type) {
       case 'floods':
-        return 'Floods 🌊';
+        return (
+          <span className="flex items-center">
+            Floods <Droplet className="h-4 w-4 ml-1 text-blue-500" />
+          </span>
+        );
       case 'wildfire':
-        return 'Wildfire 🔥';
+        return (
+          <span className="flex items-center">
+            Wildfire <Flame className="h-4 w-4 ml-1 text-red-500" />
+          </span>
+        );
       default:
         return type.charAt(0).toUpperCase() + type.slice(1);
     }
@@ -40,20 +48,6 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
     setShowMap(!showMap);
   };
 
-  // Function to determine if an image URL is valid and not a blob
-  const getValidImageUrl = (url: string | null) => {
-    if (!url) return null;
-    
-    // Check if it's a blob URL (which won't persist after page refresh)
-    if (url.startsWith('blob:')) {
-      console.log('Converting blob URL to placeholder for:', url);
-      return '/placeholder.svg';
-    }
-    
-    console.log('Using image URL:', url);
-    return url;
-  };
-
   return (
     <Card className="mb-4 overflow-hidden hover:shadow-md transition-shadow animate-fade-in">
       <CardContent className="p-0">
@@ -68,7 +62,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
         {post.image_url && (
           <div className="w-full h-48 overflow-hidden">
             <img 
-              src={getValidImageUrl(post.image_url)} 
+              src={post.image_url} 
               alt={`${post.disaster_type} incident`} 
               className="w-full h-full object-cover"
               onError={(e) => {

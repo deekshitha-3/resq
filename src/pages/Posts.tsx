@@ -49,21 +49,8 @@ const Posts = () => {
       }, (payload) => {
         console.log('Realtime update received:', payload);
         if (payload.eventType === 'INSERT') {
-          // Make sure we don't use blob URLs for new posts
-          const newPost = payload.new as Post;
-          
-          // Log image URL for debugging
-          if (newPost.image_url) {
-            console.log('New post image URL:', newPost.image_url);
-          }
-          
-          // Handle blob URLs for realtime updates
-          if (newPost.image_url && newPost.image_url.startsWith('blob:')) {
-            console.log('Converting blob URL to placeholder for realtime update');
-            newPost.image_url = '/placeholder.svg';
-          }
-          
-          setPosts(prev => [newPost, ...prev]);
+          // Add the new post at the top of the list
+          setPosts(prev => [payload.new as Post, ...prev]);
         }
       })
       .subscribe();

@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MessageSquare, X, Rocket } from 'lucide-react';
@@ -29,9 +30,24 @@ const Index = () => {
       if (image) {
         const fileExt = image.name.split('.').pop();
         const fileName = `${Math.random()}.${fileExt}`;
-        const filePath = `posts/${fileName}`;
+        const filePath = `${fileName}`;
         
-        imageUrl = URL.createObjectURL(image);
+        // Upload image to Supabase Storage
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from('post_images')
+          .upload(filePath, image);
+        
+        if (uploadError) {
+          throw uploadError;
+        }
+        
+        // Get the public URL for the uploaded image
+        const { data: { publicUrl } } = supabase.storage
+          .from('post_images')
+          .getPublicUrl(filePath);
+          
+        imageUrl = publicUrl;
+        console.log('Image uploaded successfully:', publicUrl);
       }
       
       const location = getRandomIndianLocation();
@@ -58,8 +74,7 @@ const Index = () => {
     } catch (error) {
       console.error('Error saving post:', error);
       setLoading(false);
-      setSosPressed(true);
-      toast.error('Location shared, but failed to save incident post');
+      toast.error('Failed to share location and post incident');
     }
   };
 
@@ -116,9 +131,9 @@ const Index = () => {
           <Link to="/models">
             <Button 
               variant="default" 
-              className="bg-resq-blue hover:bg-resq-blue/90 text-white rounded-full px-8 py-3 flex items-center gap-2 shadow-md text-lg"
+              className="bg-resq-blue hover:bg-resq-blue/90 text-white rounded-full px-10 py-4 flex items-center gap-2 shadow-md text-xl"
             >
-              <Rocket className="h-5 w-5" />
+              <Rocket className="h-6 w-6" />
               <span>Explore Our AI Models</span>
             </Button>
           </Link>

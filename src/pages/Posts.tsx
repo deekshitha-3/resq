@@ -27,6 +27,7 @@ const Posts = () => {
         
         if (error) throw error;
         
+        console.log('Fetched posts:', data);
         setPosts(data || []);
       } catch (error) {
         console.error('Error fetching posts:', error);
@@ -46,14 +47,22 @@ const Posts = () => {
         schema: 'public', 
         table: 'posts' 
       }, (payload) => {
+        console.log('Realtime update received:', payload);
         if (payload.eventType === 'INSERT') {
           // Make sure we don't use blob URLs for new posts
           const newPost = payload.new as Post;
+          
+          // Log image URL for debugging
+          if (newPost.image_url) {
+            console.log('New post image URL:', newPost.image_url);
+          }
+          
+          // Handle blob URLs for realtime updates
           if (newPost.image_url && newPost.image_url.startsWith('blob:')) {
-            // For real-time updates, we should process the image properly
-            // For this demo, we'll use a placeholder
+            console.log('Converting blob URL to placeholder for realtime update');
             newPost.image_url = '/placeholder.svg';
           }
+          
           setPosts(prev => [newPost, ...prev]);
         }
       })

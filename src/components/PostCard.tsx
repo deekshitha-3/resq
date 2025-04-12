@@ -40,16 +40,17 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
     setShowMap(!showMap);
   };
 
-  // Function to determine if an image URL is valid
+  // Function to determine if an image URL is valid and not a blob
   const getValidImageUrl = (url: string | null) => {
     if (!url) return null;
     
     // Check if it's a blob URL (which won't persist after page refresh)
     if (url.startsWith('blob:')) {
-      // Return a placeholder image instead
+      console.log('Converting blob URL to placeholder for:', url);
       return '/placeholder.svg';
     }
     
+    console.log('Using image URL:', url);
     return url;
   };
 
@@ -70,6 +71,10 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
               src={getValidImageUrl(post.image_url)} 
               alt={`${post.disaster_type} incident`} 
               className="w-full h-full object-cover"
+              onError={(e) => {
+                console.error('Image failed to load:', post.image_url);
+                (e.target as HTMLImageElement).src = '/placeholder.svg'; 
+              }}
             />
           </div>
         )}

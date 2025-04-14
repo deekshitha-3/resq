@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { MapPin } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
 
 interface GoogleMapProps {
   latitude?: number;
@@ -25,9 +26,19 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
     window.open(`https://www.google.com/maps/@${latitude},${longitude},15z`, '_blank');
   };
 
+  // Get the API key from Supabase secrets
+  const { data: { session } } = await supabase.auth.getSession();
+  const { data: secretData } = await supabase
+    .from('secrets')
+    .select('value')
+    .eq('name', 'GOOGLE_MAPS_API_KEY')
+    .single();
+
+  const apiKey = secretData?.value;
+
   if (isStatic) {
     // Static map image using Google Maps Static API
-    const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&zoom=15&size=600x300&markers=color:red%7C${latitude},${longitude}&key=AIzaSyAoGYnNgotSn4YiFylwei1Q05O1ywVUqBY`;
+    const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&zoom=15&size=600x300&markers=color:red%7C${latitude},${longitude}&key=${apiKey}`;
     
     return (
       <div 
@@ -62,7 +73,7 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
         loading="lazy"
         allowFullScreen
         referrerPolicy="no-referrer-when-downgrade"
-        src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyAoGYnNgotSn4YiFylwei1Q05O1ywVUqBY}&q=${latitude},${longitude}&zoom=15`}
+        src={`https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${latitude},${longitude}&zoom=15`}
       />
       <div className={`absolute top-2 right-2 p-2 rounded-full bg-white shadow-md ${getMapColor()}`}>
         <MapPin className="h-4 w-4" />

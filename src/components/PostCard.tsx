@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Post } from '@/lib/supabase';
 import { formatDistanceToNow } from 'date-fns';
@@ -5,7 +6,6 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { MapPin, Droplet, Flame } from 'lucide-react';
-import LocationMap from '@/components/LocationMap';
 import GoogleMap from './GoogleMap';
 
 interface PostCardProps {
@@ -14,6 +14,9 @@ interface PostCardProps {
 
 const PostCard: React.FC<PostCardProps> = ({ post }) => {
   const [showMap, setShowMap] = useState(false);
+  
+  // Extract coordinates from location if they exist
+  const coordinates = post.coordinates ? JSON.parse(post.coordinates) : null;
   
   const formatDisasterType = (type: string) => {
     switch (type) {
@@ -61,11 +64,11 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
           <div className="w-full h-48 overflow-hidden">
             <img 
               src={post.image_url} 
-              alt={`${post.disaster_type} incident`} 
+              alt={`${post.disaster_type} incident at ${post.location}`}
               className="w-full h-full object-cover"
               onError={(e) => {
                 console.error('Image failed to load:', post.image_url);
-                (e.target as HTMLImageElement).src = '/placeholder.svg'; 
+                (e.target as HTMLImageElement).src = '/placeholder.svg';
               }}
             />
           </div>
@@ -95,6 +98,9 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
         {showMap && (
           <div className="w-full mt-3">
             <GoogleMap 
+              latitude={coordinates?.latitude}
+              longitude={coordinates?.longitude}
+              location={post.location}
               disasterType={post.disaster_type}
               isStatic={true}
               className="h-48 w-full mb-2"

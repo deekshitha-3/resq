@@ -1,18 +1,20 @@
 
 import React, { useState } from 'react';
-import { MapPin, AlertTriangle } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 
 interface GoogleMapProps {
   latitude?: number;
   longitude?: number;
+  location?: string;
   disasterType?: string;
   isStatic?: boolean;
   className?: string;
 }
 
 const GoogleMap: React.FC<GoogleMapProps> = ({
-  latitude = 13.1209289,
-  longitude = 77.7337622,
+  latitude,
+  longitude,
+  location,
   disasterType,
   isStatic = true,
   className = ''
@@ -21,19 +23,20 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
   const [loading, setLoading] = useState(false);
   const [mapError, setMapError] = useState(false);
   
-  // For now, we'll use a fallback approach since the API key has issues
-  // In production, this should be properly configured with a valid API key
-  const apiKey = ""; // Intentionally left empty until proper configuration
+  // Using the Google Maps API key
+  const apiKey = "YOUR_GOOGLE_MAPS_API_KEY"; // Replace with your actual API key
 
   const getMapColor = () => {
     return disasterType === 'floods' ? 'text-blue-500' : 'text-red-500';
   };
 
   const handleMapClick = () => {
-    window.open(`https://www.google.com/maps/@${latitude},${longitude},15z`, '_blank');
+    if (latitude && longitude) {
+      window.open(`https://www.google.com/maps/@${latitude},${longitude},15z`, '_blank');
+    }
   };
 
-  // Show fallback map representation since we're experiencing API issues
+  // Show fallback map representation
   const renderFallbackMap = () => {
     return (
       <div 
@@ -47,8 +50,10 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
           <p className="text-sm text-gray-600 mb-1">
             {disasterType === 'floods' ? 'Flood' : 'Wildfire'} reported at:
           </p>
-          <p className="font-medium text-gray-800">{latitude.toFixed(6)}, {longitude.toFixed(6)}</p>
-          <p className="text-xs text-blue-600 mt-2 underline">Click to view on Google Maps</p>
+          <p className="font-medium text-gray-800">{location}</p>
+          {latitude && longitude && (
+            <p className="text-xs text-blue-600 mt-2 underline">Click to view on Google Maps</p>
+          )}
         </div>
       </div>
     );
@@ -64,12 +69,11 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
   }
 
   // If API key is not available or we've encountered an error, show the fallback
-  if (!apiKey || mapError) {
+  if (!apiKey || mapError || !latitude || !longitude) {
     return renderFallbackMap();
   }
 
   if (isStatic) {
-    // Static map image using Google Maps Static API
     const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&zoom=15&size=600x300&markers=color:red%7C${latitude},${longitude}&key=${apiKey}`;
     
     return (
@@ -81,11 +85,11 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
       >
         <img 
           src={mapUrl}
-          alt="Location Map"
+          alt={`Map of ${location}`}
           className="w-full h-full object-cover hover:opacity-95 transition-opacity cursor-pointer"
           onError={(e) => {
             console.error('Map image failed to load');
-            setMapError(true); // Set error state to trigger fallback
+            setMapError(true);
             (e.target as HTMLImageElement).src = '/placeholder.svg';
           }}
         />
@@ -96,21 +100,18 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
     );
   }
 
-  // Interactive embedded map
   return (
     <div className={`relative overflow-hidden rounded-lg ${className}`}>
-      {apiKey ? (
-        <iframe
-          width="100%"
-          height="100%"
-          style={{ border: 0 }}
-          loading="lazy"
-          allowFullScreen
-          referrerPolicy="no-referrer-when-downgrade"
-          src={`https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${latitude},${longitude}&zoom=15`}
-          onError={() => setMapError(true)}
-        />
-      ) : renderFallbackMap()}
+      <iframe
+        width="100%"
+        height="100%"
+        style={{ border: 0 }}
+        loading="lazy"
+        allowFullScreen
+        referrerPolicy="no-referrer-when-downgrade"
+        src={`https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${latitude},${longitude}&zoom=15`}
+        onError={() => setMapError(true)}
+      />
       <div className={`absolute top-2 right-2 p-2 rounded-full bg-white shadow-md ${getMapColor()}`}>
         <MapPin className="h-4 w-4" />
       </div>

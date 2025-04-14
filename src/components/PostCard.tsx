@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Post } from '@/lib/supabase';
 import { formatDistanceToNow } from 'date-fns';
@@ -7,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { MapPin, Droplet, Flame } from 'lucide-react';
 import LocationMap from '@/components/LocationMap';
+import GoogleMap from './GoogleMap';
 
 interface PostCardProps {
   post: Post;
@@ -15,7 +15,6 @@ interface PostCardProps {
 const PostCard: React.FC<PostCardProps> = ({ post }) => {
   const [showMap, setShowMap] = useState(false);
   
-  // Format the disaster type for display
   const formatDisasterType = (type: string) => {
     switch (type) {
       case 'floods':
@@ -35,7 +34,6 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
     }
   };
 
-  // Get a relative time string (e.g. "3 hours ago")
   const getRelativeTime = (dateString: string) => {
     try {
       return formatDistanceToNow(new Date(dateString), { addSuffix: true });
@@ -96,7 +94,11 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
         
         {showMap && (
           <div className="w-full mt-3">
-            <LocationMap disasterType={post.disaster_type} isPostPage={true} />
+            <GoogleMap 
+              disasterType={post.disaster_type}
+              isStatic={true}
+              className="h-48 w-full mb-2"
+            />
             <Button 
               variant="outline" 
               size="sm" 

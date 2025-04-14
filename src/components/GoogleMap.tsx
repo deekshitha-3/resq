@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { MapPin } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 
@@ -18,6 +18,35 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
   isStatic = true,
   className = ''
 }) => {
+  const [apiKey, setApiKey] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchApiKey() {
+      try {
+        // Try to get API key from Supabase secrets
+        const { data: secretData, error } = await supabase
+          .from('secrets')
+          .select('value')
+          .eq('name', 'GOOGLE_MAPS_API_KEY')
+          .single();
+
+        if (error) {
+          console.error('Error fetching API key:', error.message);
+          throw error;
+        }
+
+        setApiKey(secretData?.value || null);
+      } catch (error) {
+        console.error('Could not fetch API key from Supabase secrets');
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchApiKey();
+  }, []);
+
   const getMapColor = () => {
     return disasterType === 'floods' ? 'text-blue-500' : 'text-red-500';
   };
@@ -26,15 +55,26 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
     window.open(`https://www.google.com/maps/@${latitude},${longitude},15z`, '_blank');
   };
 
-  // Get the API key from Supabase secrets
-  const { data: { session } } = await supabase.auth.getSession();
-  const { data: secretData } = await supabase
-    .from('secrets')
-    .select('value')
-    .eq('name', 'GOOGLE_MAPS_API_KEY')
-    .single();
+  // Show loading state
+  if (loading) {
+    return (
+      <div className={`flex items-center justify-center bg-gray-100 rounded-lg ${className}`}>
+        <div className="p-4 text-sm text-gray-500">Loading map...</div>
+      </div>
+    );
+  }
 
-  const apiKey = secretData?.value;
+  // If no API key is available, show placeholder
+  if (!apiKey) {
+    return (
+      <div className={`relative overflow-hidden rounded-lg ${className} bg-gray-100 flex items-center justify-center`}>
+        <div className="p-4 text-center">
+          <MapPin className="h-8 w-8 mx-auto mb-2 text-gray-400" />
+          <p className="text-sm text-gray-500">Map unavailable</p>
+        </div>
+      </div>
+    );
+  }
 
   if (isStatic) {
     // Static map image using Google Maps Static API

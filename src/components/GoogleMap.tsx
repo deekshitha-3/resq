@@ -1,7 +1,5 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { MapPin } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
 
 interface GoogleMapProps {
   latitude?: number;
@@ -18,34 +16,10 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
   isStatic = true,
   className = ''
 }) => {
-  const [apiKey, setApiKey] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchApiKey() {
-      try {
-        // Try to get API key from Supabase secrets
-        const { data: secretData, error } = await supabase
-          .from('secrets')
-          .select('value')
-          .eq('name', 'GOOGLE_MAPS_API_KEY')
-          .single();
-
-        if (error) {
-          console.error('Error fetching API key:', error.message);
-          throw error;
-        }
-
-        setApiKey(secretData?.value || null);
-      } catch (error) {
-        console.error('Could not fetch API key from Supabase secrets');
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchApiKey();
-  }, []);
+  // Store the API key in a variable - in a real production app, this should be 
+  // stored more securely, but for now we'll keep it simple
+  const [loading] = useState(false);
+  const apiKey = "AIzaSyAoGYnNgotSn4YiFylwei1Q05O1ywVUqBY";
 
   const getMapColor = () => {
     return disasterType === 'floods' ? 'text-blue-500' : 'text-red-500';

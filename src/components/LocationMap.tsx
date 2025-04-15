@@ -1,7 +1,7 @@
 
 import React from 'react';
 import GoogleMap from './GoogleMap';
-import { MapPin, Navigation2, Ruler } from 'lucide-react';
+import { MapPin, Navigation2, ShieldAlert } from 'lucide-react';
 
 interface LocationMapProps {
   disasterType: string;
@@ -14,9 +14,24 @@ const getRandomDirection = () => {
   return directions[Math.floor(Math.random() * directions.length)];
 };
 
+const getDirectionRotation = (direction: string): number => {
+  const rotationMap: { [key: string]: number } = {
+    'North': 0,
+    'North-East': 45,
+    'East': 90,
+    'South-East': 135,
+    'South': 180,
+    'South-West': 225,
+    'West': 270,
+    'North-West': 315
+  };
+  return rotationMap[direction] || 0;
+};
+
 const LocationMap: React.FC<LocationMapProps> = ({ disasterType, isPostPage = false }) => {
   const distance = getRandomDistance();
   const direction = getRandomDirection();
+  const rotation = getDirectionRotation(direction);
 
   return (
     <div className="space-y-6 animate-fade-in">
@@ -46,7 +61,9 @@ const LocationMap: React.FC<LocationMapProps> = ({ disasterType, isPostPage = fa
           >
             <div className="flex flex-col space-y-4">
               <h3 className={`font-semibold text-lg ${
-                disasterType === 'floods' ? 'text-blue-700' : 'text-orange-700'
+                disasterType === 'floods' 
+                  ? 'text-resq-blue' 
+                  : 'text-orange-700'
               }`}>
                 {disasterType === 'floods' ? 'Nearest shelter found!' : 'Move to a safer location:'}
               </h3>
@@ -55,8 +72,8 @@ const LocationMap: React.FC<LocationMapProps> = ({ disasterType, isPostPage = fa
                   <div className={`p-2 rounded-full ${
                     disasterType === 'floods' ? 'bg-blue-100' : 'bg-orange-100'
                   }`}>
-                    <Ruler className={`h-5 w-5 ${
-                      disasterType === 'floods' ? 'text-blue-600' : 'text-orange-600'
+                    <ShieldAlert className={`h-5 w-5 ${
+                      disasterType === 'floods' ? 'text-resq-blue' : 'text-orange-600'
                     }`} />
                   </div>
                   <div>
@@ -68,9 +85,12 @@ const LocationMap: React.FC<LocationMapProps> = ({ disasterType, isPostPage = fa
                   <div className={`p-2 rounded-full ${
                     disasterType === 'floods' ? 'bg-blue-100' : 'bg-orange-100'
                   }`}>
-                    <Navigation2 className={`h-5 w-5 ${
-                      disasterType === 'floods' ? 'text-blue-600' : 'text-orange-600'
-                    }`} />
+                    <Navigation2 
+                      className={`h-5 w-5 transform ${
+                        disasterType === 'floods' ? 'text-resq-blue' : 'text-orange-600'
+                      }`} 
+                      style={{ transform: `rotate(${rotation}deg)` }}
+                    />
                   </div>
                   <div>
                     <p className="text-sm font-medium text-gray-600">Direction</p>

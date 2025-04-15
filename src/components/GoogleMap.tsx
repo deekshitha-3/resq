@@ -21,51 +21,59 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
     return disasterType === 'floods' ? 'text-blue-500' : 'text-red-500';
   };
 
+  const getBackgroundColor = () => {
+    return disasterType === 'floods' ? 'bg-blue-100' : 'bg-orange-100';
+  };
+
   const handleMapClick = () => {
     window.open(`https://www.google.com/maps/@${latitude},${longitude},15z`, '_blank');
   };
 
-  if (isStatic) {
-    // Static map image using Google Maps Static API
-    const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&zoom=15&size=600x300&markers=color:red%7C${latitude},${longitude}&key=${process.env.VITE_GOOGLE_MAPS_API_KEY}`;
-    
-    return (
-      <div 
-        className={`relative overflow-hidden rounded-lg ${className}`}
-        onClick={handleMapClick}
-        role="button"
-        tabIndex={0}
-      >
-        <img 
-          src={mapUrl}
-          alt="Location Map"
-          className="w-full h-full object-cover hover:opacity-95 transition-opacity cursor-pointer"
-          onError={(e) => {
-            console.error('Map image failed to load');
-            (e.target as HTMLImageElement).src = '/placeholder.svg';
-          }}
-        />
-        <div className={`absolute top-2 right-2 p-2 rounded-full bg-white shadow-md ${getMapColor()}`}>
+  // Render a placeholder map with design-themed styling
+  return (
+    <div 
+      className={`relative overflow-hidden rounded-lg ${className} ${getBackgroundColor()} shadow-inner`}
+      onClick={isStatic ? handleMapClick : undefined}
+      role={isStatic ? "button" : undefined}
+      tabIndex={isStatic ? 0 : undefined}
+    >
+      <div className="absolute inset-0 opacity-30">
+        {/* Map grid lines */}
+        <div className="grid grid-cols-8 grid-rows-8 h-full w-full">
+          {Array(64).fill(0).map((_, i) => (
+            <div key={i} className="border border-gray-300/20"></div>
+          ))}
+        </div>
+        
+        {/* Map features */}
+        <div className="absolute top-1/4 left-1/3 w-1/3 h-1/4 rounded-full bg-white/20"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-1/5 h-1/5 rounded-full bg-white/20"></div>
+        <div className="absolute top-1/2 left-1/2 w-1/4 h-1/5 rounded bg-white/10"></div>
+      </div>
+      
+      {/* Central location pin */}
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+        <div className={`p-2 rounded-full bg-white shadow-md ${getMapColor()}`}>
           <MapPin className="h-4 w-4" />
         </div>
+        <div className="mt-1 px-2 py-1 bg-white/90 rounded-md shadow-sm text-xs">
+          Current Location
+        </div>
       </div>
-    );
-  }
-
-  // Interactive embedded map
-  return (
-    <div className={`relative overflow-hidden rounded-lg ${className}`}>
-      <iframe
-        width="100%"
-        height="100%"
-        style={{ border: 0 }}
-        loading="lazy"
-        allowFullScreen
-        referrerPolicy="no-referrer-when-downgrade"
-        src={`https://www.google.com/maps/embed/v1/place?key=${process.env.VITE_GOOGLE_MAPS_API_KEY}&q=${latitude},${longitude}&zoom=15`}
-      />
-      <div className={`absolute top-2 right-2 p-2 rounded-full bg-white shadow-md ${getMapColor()}`}>
-        <MapPin className="h-4 w-4" />
+      
+      {/* Compass rose */}
+      <div className="absolute top-2 left-2 h-8 w-8 rounded-full bg-white/80 shadow-sm flex items-center justify-center">
+        <div className="h-6 w-6 relative">
+          <div className="absolute h-1 w-3 bg-red-500 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full"></div>
+          <div className="absolute h-3 w-1 bg-gray-500 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full"></div>
+          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 text-[8px] font-bold">N</div>
+        </div>
+      </div>
+      
+      {/* Scale indicator */}
+      <div className="absolute bottom-2 left-2 h-1 w-12 bg-white/80 shadow-sm flex items-center justify-between p-0.5 rounded-sm">
+        <div className="h-2 w-0.5 bg-gray-500"></div>
+        <div className="h-2 w-0.5 bg-gray-500"></div>
       </div>
     </div>
   );

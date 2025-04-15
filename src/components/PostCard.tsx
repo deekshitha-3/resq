@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Post } from '@/lib/supabase';
 import { formatDistanceToNow } from 'date-fns';
@@ -5,7 +6,6 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { MapPin, Droplet, Flame } from 'lucide-react';
-import LocationMap from '@/components/LocationMap';
 import GoogleMap from './GoogleMap';
 
 interface PostCardProps {

@@ -98,6 +98,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
               disasterType={post.disaster_type}
               isStatic={true}
               className="h-48 w-full mb-2"
+              location={post.location}
             />
             <Button 
               variant="outline" 

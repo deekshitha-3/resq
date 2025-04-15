@@ -7,7 +7,16 @@ interface LocationMapProps {
   isPostPage?: boolean;
 }
 
+const getRandomDistance = () => Math.floor(Math.random() * 150) + 50; // Random distance between 50-200m
+const getRandomDirection = () => {
+  const directions = ['North', 'North-East', 'East', 'South-East', 'South', 'South-West', 'West', 'North-West'];
+  return directions[Math.floor(Math.random() * directions.length)];
+};
+
 const LocationMap: React.FC<LocationMapProps> = ({ disasterType, isPostPage = false }) => {
+  const distance = getRandomDistance();
+  const direction = getRandomDirection();
+
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="glass-card rounded-lg p-4 shadow-md">
@@ -28,8 +37,14 @@ const LocationMap: React.FC<LocationMapProps> = ({ disasterType, isPostPage = fa
 
         {!isPostPage && (
           <div className={`bg-${disasterType === 'floods' ? 'blue' : 'orange'}-50 p-4 rounded-lg border border-${disasterType === 'floods' ? 'blue' : 'orange'}-200 mt-4`}>
-            <div className="flex items-center space-x-2">
-              <span className="font-medium text-sm">Our team will reach you in a few minutes.</span>
+            <div className="flex flex-col space-y-2">
+              <span className="font-medium">
+                {disasterType === 'floods' ? 'Nearest shelter found!' : 'Move to a safer location:'}
+              </span>
+              <div className="text-sm space-y-1">
+                <p>Distance: {distance}m</p>
+                <p>Direction: {direction}</p>
+              </div>
             </div>
           </div>
         )}

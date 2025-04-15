@@ -16,8 +16,6 @@ const Index = () => {
   const [message, setMessage] = useState<string>('');
   const [sosPressed, setSosPressed] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [currentLocation, setCurrentLocation] = useState<string>('');
-  const [currentCoordinates, setCurrentCoordinates] = useState<{latitude: number, longitude: number} | null>(null);
 
   const handleSOS = async () => {
     if (!disasterType) {
@@ -52,16 +50,7 @@ const Index = () => {
         console.log('Image uploaded successfully:', publicUrl);
       }
       
-      // Get a random location and random coordinates in India
       const location = getRandomIndianLocation();
-      
-      // Generate random coordinates in India (approximate range)
-      const latitude = 8.4 + Math.random() * 28; // India spans from ~8N to ~36N
-      const longitude = 68.7 + Math.random() * 28; // India spans from ~68E to ~97E
-      
-      // Store location and coordinates
-      setCurrentLocation(location);
-      setCurrentCoordinates({ latitude, longitude });
       
       const { error } = await supabase
         .from('posts')
@@ -71,7 +60,6 @@ const Index = () => {
             message: message || null, 
             image_url: imageUrl, 
             location: location,
-            coordinates: JSON.stringify({ latitude, longitude }),
             created_at: new Date().toISOString() 
           }
         ]);
@@ -95,8 +83,6 @@ const Index = () => {
     setDisasterType('');
     setImage(null);
     setMessage('');
-    setCurrentLocation('');
-    setCurrentCoordinates(null);
   };
 
   return (
@@ -127,12 +113,7 @@ const Index = () => {
                   <X className="h-4 w-4" />
                 </button>
               </div>
-              <LocationMap 
-                disasterType={disasterType} 
-                location={currentLocation}
-                latitude={currentCoordinates?.latitude}
-                longitude={currentCoordinates?.longitude}
-              />
+              <LocationMap disasterType={disasterType} />
             </>
           ) : (
             <>

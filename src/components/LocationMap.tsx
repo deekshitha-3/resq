@@ -5,9 +5,18 @@ import GoogleMap from './GoogleMap';
 interface LocationMapProps {
   disasterType: string;
   isPostPage?: boolean;
+  location?: string;
+  latitude?: number;
+  longitude?: number;
 }
 
-const LocationMap: React.FC<LocationMapProps> = ({ disasterType, isPostPage = false }) => {
+const LocationMap: React.FC<LocationMapProps> = ({ 
+  disasterType, 
+  isPostPage = false, 
+  location,
+  latitude,
+  longitude
+}) => {
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="glass-card rounded-lg p-4 shadow-md">
@@ -16,6 +25,7 @@ const LocationMap: React.FC<LocationMapProps> = ({ disasterType, isPostPage = fa
             <div className="h-5 w-5 text-green-600" />
           </div>
           <h2 className="text-lg font-semibold text-resq-dark">Your Live location shared</h2>
+          {location && <p className="text-sm text-gray-600">{location}</p>}
         </div>
 
         <div className="relative w-full h-48">
@@ -23,6 +33,9 @@ const LocationMap: React.FC<LocationMapProps> = ({ disasterType, isPostPage = fa
             disasterType={disasterType}
             isStatic={isPostPage}
             className="h-48"
+            location={location}
+            latitude={latitude}
+            longitude={longitude}
           />
         </div>
 

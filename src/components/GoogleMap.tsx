@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MapPin } from 'lucide-react';
 
 interface GoogleMapProps {
@@ -21,10 +21,19 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
 }) => {
   // Using useState to track loading and error states
   const [loading, setLoading] = useState(false);
-  const [mapError, setMapError] = useState(false);
+  const [mapError, setMapError] = useState<string | null>(null);
   
   // Using the Google Maps API key
   const apiKey = "YOUR_GOOGLE_MAPS_API_KEY"; // Replace with your actual API key
+  
+  // Validate API key on component mount
+  useEffect(() => {
+    if (!apiKey || apiKey === "YOUR_GOOGLE_MAPS_API_KEY") {
+      setMapError("No Google Maps API key provided");
+    } else if (!latitude || !longitude) {
+      setMapError("No coordinates provided");
+    }
+  }, [apiKey, latitude, longitude]);
 
   const getMapColor = () => {
     return disasterType === 'floods' ? 'text-blue-500' : 'text-red-500';
@@ -50,9 +59,17 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
           <p className="text-sm text-gray-600 mb-1">
             {disasterType === 'floods' ? 'Flood' : 'Wildfire'} reported at:
           </p>
-          <p className="font-medium text-gray-800">{location}</p>
+          <p className="font-medium text-gray-800">{location || 'Unknown location'}</p>
+          {latitude && longitude && (
+            <p className="text-xs text-gray-500 mt-1">
+              Coordinates: {latitude.toFixed(6)}, {longitude.toFixed(6)}
+            </p>
+          )}
           {latitude && longitude && (
             <p className="text-xs text-blue-600 mt-2 underline">Click to view on Google Maps</p>
+          )}
+          {mapError && (
+            <p className="text-xs text-red-500 mt-2">{mapError}</p>
           )}
         </div>
       </div>
@@ -69,7 +86,7 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
   }
 
   // If API key is not available or we've encountered an error, show the fallback
-  if (!apiKey || mapError || !latitude || !longitude) {
+  if (!apiKey || apiKey === "YOUR_GOOGLE_MAPS_API_KEY" || mapError || !latitude || !longitude) {
     return renderFallbackMap();
   }
 
@@ -85,14 +102,26 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
       >
         <img 
           src={mapUrl}
-          alt={`Map of ${location}`}
+          alt={`Map of ${location || 'location'}`}
           className="w-full h-full object-cover hover:opacity-95 transition-opacity cursor-pointer"
           onError={(e) => {
             console.error('Map image failed to load');
-            setMapError(true);
-            (e.target as HTMLImageElement).src = '/placeholder.svg';
+            setMapError("Failed to load Google Maps. This API project might not be authorized to use this API.");
+            (e.target as HTMLImageElement).style.display = 'none';
           }}
         />
+        {mapError && (
+          <div className="absolute inset-0 bg-gray-100 flex flex-col items-center justify-center p-4">
+            <MapPin className={`h-8 w-8 ${getMapColor()} mb-2`} />
+            <p className="text-sm text-red-500 text-center">{mapError}</p>
+            <p className="text-xs text-gray-600 mt-2 text-center">{location || 'Unknown location'}</p>
+            {latitude && longitude && (
+              <p className="text-xs text-gray-500 mt-1 text-center">
+                Coordinates: {latitude.toFixed(6)}, {longitude.toFixed(6)}
+              </p>
+            )}
+          </div>
+        )}
         <div className={`absolute top-2 right-2 p-2 rounded-full bg-white shadow-md ${getMapColor()}`}>
           <MapPin className="h-4 w-4" />
         </div>
@@ -110,8 +139,20 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
         allowFullScreen
         referrerPolicy="no-referrer-when-downgrade"
         src={`https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${latitude},${longitude}&zoom=15`}
-        onError={() => setMapError(true)}
+        onError={() => setMapError("Failed to load Google Maps. This API project might not be authorized to use this API.")}
       />
+      {mapError && (
+        <div className="absolute inset-0 bg-gray-100 flex flex-col items-center justify-center p-4">
+          <MapPin className={`h-8 w-8 ${getMapColor()} mb-2`} />
+          <p className="text-sm text-red-500 text-center">{mapError}</p>
+          <p className="text-xs text-gray-600 mt-2 text-center">{location || 'Unknown location'}</p>
+          {latitude && longitude && (
+            <p className="text-xs text-gray-500 mt-1 text-center">
+              Coordinates: {latitude.toFixed(6)}, {longitude.toFixed(6)}
+            </p>
+          )}
+        </div>
+      )}
       <div className={`absolute top-2 right-2 p-2 rounded-full bg-white shadow-md ${getMapColor()}`}>
         <MapPin className="h-4 w-4" />
       </div>

@@ -10,6 +10,7 @@ export interface Post {
   image_url?: string;
   location: string;
   created_at: string;
+  coordinates?: string; // Added coordinates field
 }
 
 // Use the production Supabase client

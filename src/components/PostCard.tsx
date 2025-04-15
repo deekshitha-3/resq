@@ -16,7 +16,22 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
   const [showMap, setShowMap] = useState(false);
   
   // Extract coordinates from location if they exist
-  const coordinates = post.coordinates ? JSON.parse(post.coordinates) : null;
+  let latitude: number | undefined;
+  let longitude: number | undefined;
+  
+  // Safely parse coordinates if available
+  if (post.coordinates) {
+    try {
+      const coords = JSON.parse(post.coordinates);
+      if (coords && typeof coords === 'object') {
+        latitude = coords.latitude;
+        longitude = coords.longitude;
+      }
+    } catch (e) {
+      console.error('Failed to parse coordinates:', e);
+      // Continue with undefined coordinates
+    }
+  }
   
   const formatDisasterType = (type: string) => {
     switch (type) {
@@ -98,8 +113,8 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
         {showMap && (
           <div className="w-full mt-3">
             <GoogleMap 
-              latitude={coordinates?.latitude}
-              longitude={coordinates?.longitude}
+              latitude={latitude}
+              longitude={longitude}
               location={post.location}
               disasterType={post.disaster_type}
               isStatic={true}

@@ -1,13 +1,14 @@
 
 import React from 'react';
 import GoogleMap from './GoogleMap';
+import { MapPin, Navigation2, Ruler } from 'lucide-react';
 
 interface LocationMapProps {
   disasterType: string;
   isPostPage?: boolean;
 }
 
-const getRandomDistance = () => Math.floor(Math.random() * 150) + 50; // Random distance between 50-200m
+const getRandomDistance = () => Math.floor(Math.random() * 150) + 50;
 const getRandomDirection = () => {
   const directions = ['North', 'North-East', 'East', 'South-East', 'South', 'South-West', 'West', 'North-West'];
   return directions[Math.floor(Math.random() * directions.length)];
@@ -19,31 +20,63 @@ const LocationMap: React.FC<LocationMapProps> = ({ disasterType, isPostPage = fa
 
   return (
     <div className="space-y-6 animate-fade-in">
-      <div className="glass-card rounded-lg p-4 shadow-md">
-        <div className="text-center mb-4">
-          <div className="inline-flex items-center justify-center h-10 w-10 rounded-full bg-green-100 mb-2">
-            <div className="h-5 w-5 text-green-600" />
+      <div className="glass-card rounded-xl p-6 shadow-lg">
+        <div className="text-center mb-6">
+          <div className="inline-flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-3">
+            <MapPin className="h-6 w-6 text-green-600" />
           </div>
-          <h2 className="text-lg font-semibold text-resq-dark">Your Live location shared</h2>
+          <h2 className="text-xl font-semibold text-resq-dark">Your Live location shared</h2>
         </div>
 
-        <div className="relative w-full h-48">
+        <div className="relative w-full h-56 rounded-lg overflow-hidden">
           <GoogleMap 
             disasterType={disasterType}
             isStatic={isPostPage}
-            className="h-48"
+            className="h-56"
           />
         </div>
 
         {!isPostPage && (
-          <div className={`bg-${disasterType === 'floods' ? 'blue' : 'orange'}-50 p-4 rounded-lg border border-${disasterType === 'floods' ? 'blue' : 'orange'}-200 mt-4`}>
-            <div className="flex flex-col space-y-2">
-              <span className="font-medium">
+          <div 
+            className={`mt-6 p-5 rounded-lg border ${
+              disasterType === 'floods' 
+                ? 'bg-blue-50/80 border-blue-200' 
+                : 'bg-orange-50/80 border-orange-200'
+            }`}
+          >
+            <div className="flex flex-col space-y-4">
+              <h3 className={`font-semibold text-lg ${
+                disasterType === 'floods' ? 'text-blue-700' : 'text-orange-700'
+              }`}>
                 {disasterType === 'floods' ? 'Nearest shelter found!' : 'Move to a safer location:'}
-              </span>
-              <div className="text-sm space-y-1">
-                <p>Distance: {distance}m</p>
-                <p>Direction: {direction}</p>
+              </h3>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="flex items-center space-x-3">
+                  <div className={`p-2 rounded-full ${
+                    disasterType === 'floods' ? 'bg-blue-100' : 'bg-orange-100'
+                  }`}>
+                    <Ruler className={`h-5 w-5 ${
+                      disasterType === 'floods' ? 'text-blue-600' : 'text-orange-600'
+                    }`} />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-gray-600">Distance</p>
+                    <p className="text-lg font-semibold">{distance}m</p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className={`p-2 rounded-full ${
+                    disasterType === 'floods' ? 'bg-blue-100' : 'bg-orange-100'
+                  }`}>
+                    <Navigation2 className={`h-5 w-5 ${
+                      disasterType === 'floods' ? 'text-blue-600' : 'text-orange-600'
+                    }`} />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-gray-600">Direction</p>
+                    <p className="text-lg font-semibold">{direction}</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

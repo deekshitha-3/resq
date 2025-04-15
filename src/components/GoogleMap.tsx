@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { MapPin } from 'lucide-react';
 
@@ -19,11 +20,11 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
   location
 }) => {
   const getMapColor = () => {
-    return disasterType === 'floods' ? 'text-blue-500' : 'text-red-500';
+    return disasterType === 'floods' ? 'text-blue-500' : 'text-orange-500';
   };
 
   const getBackgroundColor = () => {
-    return disasterType === 'floods' ? 'bg-blue-100' : 'bg-orange-100';
+    return disasterType === 'floods' ? 'bg-blue-50' : 'bg-orange-50';
   };
 
   const handleMapClick = () => {
@@ -36,43 +37,55 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
 
   return (
     <div 
-      className={`relative overflow-hidden rounded-lg ${className} ${getBackgroundColor()} shadow-inner`}
+      className={`relative overflow-hidden rounded-lg ${className} ${getBackgroundColor()} shadow-inner transition-all duration-200 hover:opacity-90`}
       onClick={isStatic ? handleMapClick : undefined}
       role={isStatic ? "button" : undefined}
       tabIndex={isStatic ? 0 : undefined}
     >
-      <div className="absolute inset-0 opacity-30">
-        <div className="grid grid-cols-8 grid-rows-8 h-full w-full">
-          {Array(64).fill(0).map((_, i) => (
-            <div key={i} className="border border-gray-300/20"></div>
-          ))}
-        </div>
-        
-        <div className="absolute top-1/4 left-1/3 w-1/3 h-1/4 rounded-full bg-white/20"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-1/5 h-1/5 rounded-full bg-white/20"></div>
-        <div className="absolute top-1/2 left-1/2 w-1/4 h-1/5 rounded bg-white/10"></div>
+      {/* Map Background Pattern */}
+      <div className="absolute inset-0">
+        <svg className="w-full h-full opacity-10" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <defs>
+            <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+              <path d="M 10 0 L 0 0 0 10" fill="none" stroke="currentColor" strokeWidth="0.5"/>
+            </pattern>
+          </defs>
+          <rect width="100" height="100" fill="url(#grid)"/>
+        </svg>
+      </div>
+
+      {/* Map Features */}
+      <div className="absolute inset-0">
+        <div className="absolute top-1/4 left-1/3 w-1/3 h-1/4 rounded-full bg-white/20 blur-sm"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-1/5 h-1/5 rounded-full bg-white/20 blur-sm"></div>
+        <div className="absolute top-1/2 left-1/2 w-1/4 h-1/5 rounded-lg bg-white/10 blur-sm"></div>
       </div>
       
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
-        <div className={`p-2 rounded-full bg-white shadow-md ${getMapColor()}`}>
-          <MapPin className="h-4 w-4" />
+      {/* Location Pin */}
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center animate-bounce-slow">
+        <div className={`p-2.5 rounded-full bg-white shadow-lg ${getMapColor()}`}>
+          <MapPin className="h-5 w-5" />
         </div>
-        <div className="mt-1 px-2 py-1 bg-white/90 rounded-md shadow-sm text-xs">
+        <div className="mt-2 px-3 py-1.5 bg-white/95 rounded-full shadow-md text-sm font-medium">
           {location || "Current Location"}
         </div>
       </div>
       
-      <div className="absolute top-2 left-2 h-8 w-8 rounded-full bg-white/80 shadow-sm flex items-center justify-center">
-        <div className="h-6 w-6 relative">
-          <div className="absolute h-1 w-3 bg-red-500 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full"></div>
-          <div className="absolute h-3 w-1 bg-gray-500 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full"></div>
-          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 text-[8px] font-bold">N</div>
+      {/* Compass */}
+      <div className="absolute top-3 left-3 h-10 w-10 rounded-full bg-white/90 shadow-lg flex items-center justify-center">
+        <div className="h-8 w-8 relative">
+          <div className="absolute h-1 w-4 bg-red-500 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full"></div>
+          <div className="absolute h-4 w-1 bg-gray-600 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full"></div>
+          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 text-[10px] font-bold text-gray-700">N</div>
         </div>
       </div>
       
-      <div className="absolute bottom-2 left-2 h-1 w-12 bg-white/80 shadow-sm flex items-center justify-between p-0.5 rounded-sm">
-        <div className="h-2 w-0.5 bg-gray-500"></div>
-        <div className="h-2 w-0.5 bg-gray-500"></div>
+      {/* Scale Bar */}
+      <div className="absolute bottom-3 left-3 h-1.5 w-16 bg-white/90 shadow-md flex items-center justify-between px-1 rounded-full">
+        <div className="h-3 w-0.5 bg-gray-600 rounded-full"></div>
+        <div className="h-2 w-0.5 bg-gray-400 rounded-full"></div>
+        <div className="h-2 w-0.5 bg-gray-400 rounded-full"></div>
+        <div className="h-3 w-0.5 bg-gray-600 rounded-full"></div>
       </div>
     </div>
   );

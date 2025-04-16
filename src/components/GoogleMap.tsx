@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { MapPin, Plane } from 'lucide-react';
 
@@ -20,11 +19,11 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
   location
 }) => {
   const getMapColor = () => {
-    return disasterType === 'floods' ? 'text-blue-500' : 'text-green-500';
+    return disasterType === 'floods' ? 'text-blue-500' : 'text-blue-500';
   };
 
   const getBackgroundColor = () => {
-    return disasterType === 'floods' ? 'bg-blue-50' : 'bg-green-50';
+    return disasterType === 'floods' ? 'bg-blue-50' : 'bg-blue-50';
   };
 
   const handleMapClick = () => {
@@ -42,7 +41,6 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
       role={isStatic ? "button" : undefined}
       tabIndex={isStatic ? 0 : undefined}
     >
-      {/* Map Background Pattern */}
       <div className="absolute inset-0">
         <svg className="w-full h-full opacity-10" viewBox="0 0 100 100" preserveAspectRatio="none">
           <defs>
@@ -54,50 +52,45 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
         </svg>
       </div>
 
-      {/* Map Features */}
       <div className="absolute inset-0">
         <div className="absolute top-1/4 left-1/3 w-1/3 h-1/4 rounded-full bg-white/20 blur-sm"></div>
         <div className="absolute bottom-1/4 right-1/4 w-1/5 h-1/5 rounded-full bg-white/20 blur-sm"></div>
         <div className="absolute top-1/2 left-1/2 w-1/4 h-1/5 rounded-lg bg-white/10 blur-sm"></div>
       </div>
       
-      {/* Rescue Route with Curved Path and Animation */}
       {!isStatic && (
         <div className="absolute inset-0 overflow-hidden">
           <svg className="w-full h-full" viewBox="0 0 100 100">
-            {/* Curved rescue path with natural flow */}
             <path
-              d="M 20,80 C 30,60 45,45 55,35 S 75,20 85,15"
+              id="rescuePath"
+              d="M 20,80 C 30,65 40,60 50,50 S 70,35 85,15"
               fill="none"
               stroke="currentColor"
-              strokeWidth="1"
+              strokeWidth="1.5"
               strokeLinecap="round"
-              className={`${getMapColor()} opacity-70`}
-              strokeDasharray="1,2"
+              className={`${getMapColor()} opacity-80`}
             />
             
-            {/* Destination marker pin */}
             <g transform="translate(85,15)">
-              <MapPin className="w-4 h-4 text-green-500" />
+              <MapPin className="w-3 h-3 text-blue-500" />
             </g>
             
-            {/* Animated rescue vehicle (plane) */}
-            <g className="opacity-90">
-              <Plane className="w-3 h-3 text-green-500" />
+            <g>
               <animateMotion
-                dur="8s"
+                dur="12s"
                 repeatCount="indefinite"
-                path="M 20,80 C 30,60 45,45 55,35 S 75,20 85,15"
+                path="M 20,80 C 30,65 40,60 50,50 S 70,35 85,15"
                 rotate="auto"
               >
-                <mpath href="#rescuePath" />
+                <g>
+                  <Plane className="w-2 h-2 text-blue-500" />
+                </g>
               </animateMotion>
             </g>
           </svg>
         </div>
       )}
       
-      {/* Compass */}
       <div className="absolute top-3 left-3 h-10 w-10 rounded-full bg-white/90 shadow-lg flex items-center justify-center">
         <div className="h-8 w-8 relative">
           <div className="absolute h-1 w-4 bg-red-500 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full"></div>
@@ -106,7 +99,6 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
         </div>
       </div>
       
-      {/* Scale Bar */}
       <div className="absolute bottom-3 left-3 h-1.5 w-16 bg-white/90 shadow-md flex items-center justify-between px-1 rounded-full">
         <div className="h-3 w-0.5 bg-gray-600 rounded-full"></div>
         <div className="h-2 w-0.5 bg-gray-400 rounded-full"></div>

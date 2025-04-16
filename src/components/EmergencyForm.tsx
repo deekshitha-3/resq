@@ -39,10 +39,13 @@ const EmergencyForm: React.FC<EmergencyFormProps> = ({
   return (
     <div className="w-full space-y-6 animate-slide-up">
       <div className="space-y-2">
-        <label htmlFor="disaster-type" className="block text-sm font-medium text-gray-700">
-          Type of Emergency *
-        </label>
-        <Select onValueChange={onDisasterTypeChange} required>
+        <div className="flex items-center justify-between">
+          <label htmlFor="disaster-type" className="block text-sm font-medium text-gray-700">
+            Type of Emergency
+          </label>
+          <span className="text-sm text-gray-500 italic">Optional</span>
+        </div>
+        <Select onValueChange={onDisasterTypeChange}>
           <SelectTrigger className="w-full bg-white border-gray-200 shadow-sm" id="disaster-type">
             <SelectValue placeholder="Select disaster type" />
           </SelectTrigger>

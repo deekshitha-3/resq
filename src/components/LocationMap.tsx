@@ -1,7 +1,6 @@
-
 import React from 'react';
 import GoogleMap from './GoogleMap';
-import { MapPin, Navigation2, ShieldAlert } from 'lucide-react';
+import { MapPin, Navigation2, Route } from 'lucide-react';
 
 interface LocationMapProps {
   disasterType: string;
@@ -41,6 +40,11 @@ const LocationMap: React.FC<LocationMapProps> = ({ disasterType, isPostPage = fa
             <MapPin className="h-6 w-6 text-green-600" />
           </div>
           <h2 className="text-xl font-semibold text-resq-dark">Your Live location shared</h2>
+          {!isPostPage && (
+            <p className="mt-2 text-lg font-medium text-resq-blue">
+              Rescue team is approaching you
+            </p>
+          )}
         </div>
 
         <div className="relative w-full h-56 rounded-lg overflow-hidden">
@@ -72,7 +76,7 @@ const LocationMap: React.FC<LocationMapProps> = ({ disasterType, isPostPage = fa
                   <div className={`p-2 rounded-full ${
                     disasterType === 'floods' ? 'bg-blue-100' : 'bg-orange-100'
                   }`}>
-                    <ShieldAlert className={`h-5 w-5 ${
+                    <Route className={`h-5 w-5 ${
                       disasterType === 'floods' ? 'text-resq-blue' : 'text-orange-600'
                     }`} />
                   </div>

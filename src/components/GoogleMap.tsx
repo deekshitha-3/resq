@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { MapPin } from 'lucide-react';
+import { MapPin, ArrowRight } from 'lucide-react';
 
 interface GoogleMapProps {
   latitude?: number;
@@ -61,13 +61,26 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
         <div className="absolute top-1/2 left-1/2 w-1/4 h-1/5 rounded-lg bg-white/10 blur-sm"></div>
       </div>
       
+      {/* Rescue Route Line */}
+      {!isStatic && (
+        <div className="absolute inset-0 overflow-hidden">
+          <svg className="w-full h-full" viewBox="0 0 100 100">
+            <path
+              d="M 20,80 Q 50,50 80,20"
+              fill="none"
+              stroke="#22c55e"
+              strokeWidth="2"
+              strokeDasharray="4"
+              className="animate-dash"
+            />
+          </svg>
+        </div>
+      )}
+      
       {/* Location Pin */}
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center animate-bounce-slow">
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
         <div className={`p-2.5 rounded-full bg-white shadow-lg ${getMapColor()}`}>
           <MapPin className="h-5 w-5" />
-        </div>
-        <div className="mt-2 px-3 py-1.5 bg-white/95 rounded-full shadow-md text-sm font-medium">
-          {location || "Current Location"}
         </div>
       </div>
       

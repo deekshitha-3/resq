@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { MapPin, Plane } from 'lucide-react';
 
@@ -19,11 +20,11 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
   location
 }) => {
   const getMapColor = () => {
-    return disasterType === 'floods' ? 'text-blue-500' : 'text-orange-500';
+    return disasterType === 'floods' ? 'text-blue-500' : 'text-green-500';
   };
 
   const getBackgroundColor = () => {
-    return disasterType === 'floods' ? 'bg-blue-50' : 'bg-orange-50';
+    return disasterType === 'floods' ? 'bg-blue-50' : 'bg-green-50';
   };
 
   const handleMapClick = () => {
@@ -60,34 +61,37 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
         <div className="absolute top-1/2 left-1/2 w-1/4 h-1/5 rounded-lg bg-white/10 blur-sm"></div>
       </div>
       
-      {/* Rescue Route Line */}
+      {/* Rescue Route with Curved Path and Animation */}
       {!isStatic && (
         <div className="absolute inset-0 overflow-hidden">
           <svg className="w-full h-full" viewBox="0 0 100 100">
-            {/* Curved rescue path */}
+            {/* Curved rescue path with natural flow */}
             <path
-              d="M 15,85 C 35,70 65,30 85,15"
+              d="M 20,80 C 30,60 45,45 55,35 S 75,20 85,15"
               fill="none"
-              stroke="#4CAFFF"
-              strokeWidth="1.5"
+              stroke="currentColor"
+              strokeWidth="1"
               strokeLinecap="round"
-              className="opacity-60"
+              className={`${getMapColor()} opacity-70`}
+              strokeDasharray="1,2"
             />
-            {/* Animated plane along the path */}
-            <circle r="1.5" fill="#4CAFFF" className="opacity-0">
+            
+            {/* Destination marker pin */}
+            <g transform="translate(85,15)">
+              <MapPin className="w-4 h-4 text-green-500" />
+            </g>
+            
+            {/* Animated rescue vehicle (plane) */}
+            <g className="opacity-90">
+              <Plane className="w-3 h-3 text-green-500" />
               <animateMotion
-                dur="6s"
+                dur="8s"
                 repeatCount="indefinite"
-                path="M 15,85 C 35,70 65,30 85,15"
-              />
-            </circle>
-            <g className="opacity-0">
-              <Plane className="w-3 h-3 text-resq-blue" />
-              <animateMotion
-                dur="6s"
-                repeatCount="indefinite"
-                path="M 15,85 C 35,70 65,30 85,15"
-              />
+                path="M 20,80 C 30,60 45,45 55,35 S 75,20 85,15"
+                rotate="auto"
+              >
+                <mpath href="#rescuePath" />
+              </animateMotion>
             </g>
           </svg>
         </div>

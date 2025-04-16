@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MessageSquare, X, Rocket } from 'lucide-react';
@@ -18,11 +17,6 @@ const Index = () => {
   const [loading, setLoading] = useState(false);
 
   const handleSOS = async () => {
-    if (!disasterType) {
-      toast.error('Please select a disaster type first');
-      return;
-    }
-
     setLoading(true);
     
     try {
@@ -32,7 +26,6 @@ const Index = () => {
         const fileName = `${Math.random()}.${fileExt}`;
         const filePath = `${fileName}`;
         
-        // Upload image to Supabase Storage
         const { data: uploadData, error: uploadError } = await supabase.storage
           .from('post_images')
           .upload(filePath, image);
@@ -41,7 +34,6 @@ const Index = () => {
           throw uploadError;
         }
         
-        // Get the public URL for the uploaded image
         const { data: { publicUrl } } = supabase.storage
           .from('post_images')
           .getPublicUrl(filePath);
@@ -56,7 +48,7 @@ const Index = () => {
         .from('posts')
         .insert([
           { 
-            disaster_type: disasterType, 
+            disaster_type: disasterType || null, 
             message: message || null, 
             image_url: imageUrl, 
             location: location,

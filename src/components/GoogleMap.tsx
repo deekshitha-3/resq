@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { MapPin, ArrowRight } from 'lucide-react';
+import { MapPin, Helicopter } from 'lucide-react';
 
 interface GoogleMapProps {
   latitude?: number;
@@ -65,14 +65,31 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
       {!isStatic && (
         <div className="absolute inset-0 overflow-hidden">
           <svg className="w-full h-full" viewBox="0 0 100 100">
+            {/* Curved rescue path */}
             <path
-              d="M 20,80 Q 50,50 80,20"
+              d="M 15,85 C 35,70 65,30 85,15"
               fill="none"
-              stroke="#22c55e"
-              strokeWidth="2"
-              strokeDasharray="4"
-              className="animate-dash"
+              stroke="#4CAFFF"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              className="opacity-60"
             />
+            {/* Animated helicopter along the path */}
+            <circle r="1.5" fill="#4CAFFF" className="opacity-0">
+              <animateMotion
+                dur="6s"
+                repeatCount="indefinite"
+                path="M 15,85 C 35,70 65,30 85,15"
+              />
+            </circle>
+            <g className="opacity-0">
+              <Helicopter className="w-3 h-3 text-resq-blue" />
+              <animateMotion
+                dur="6s"
+                repeatCount="indefinite"
+                path="M 15,85 C 35,70 65,30 85,15"
+              />
+            </g>
           </svg>
         </div>
       )}

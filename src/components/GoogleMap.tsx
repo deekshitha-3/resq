@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { MapPin, Plane } from 'lucide-react';
 
@@ -93,13 +92,6 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
           </svg>
         </div>
       )}
-      
-      {/* Location Pin */}
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
-        <div className={`p-2.5 rounded-full bg-white shadow-lg ${getMapColor()}`}>
-          <MapPin className="h-5 w-5" />
-        </div>
-      </div>
       
       {/* Compass */}
       <div className="absolute top-3 left-3 h-10 w-10 rounded-full bg-white/90 shadow-lg flex items-center justify-center">

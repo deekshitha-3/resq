@@ -72,14 +72,14 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
               className="opacity-80"
             />
             
-            {/* Starting point with flight icon */}
+            {/* Very small start point with flight icon */}
             <g transform="translate(20,80)">
-              <Plane className="w-2 h-2 text-blue-500" />
+              <Plane className="w-1 h-1 text-blue-500" />
             </g>
             
-            {/* End point with location pin */}
+            {/* Very small end point with location pin */}
             <g transform="translate(85,15)">
-              <MapPin className="w-2.5 h-2.5 text-blue-500" />
+              <MapPin className="w-1 h-1 text-blue-500" />
             </g>
             
             <animateMotion
@@ -89,7 +89,7 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
               rotate="auto"
             >
               <g>
-                <Plane className="w-2 h-2 text-blue-500" />
+                <Plane className="w-1 h-1 text-blue-500" />
               </g>
             </animateMotion>
           </svg>

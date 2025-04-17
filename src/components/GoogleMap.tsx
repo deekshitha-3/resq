@@ -72,6 +72,12 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
               className="opacity-80"
             />
             
+            {/* Starting point with flight icon */}
+            <g transform="translate(20,80)">
+              <Plane className="w-2 h-2 text-blue-500" />
+            </g>
+            
+            {/* End point with location pin */}
             <g transform="translate(85,15)">
               <MapPin className="w-2.5 h-2.5 text-blue-500" />
             </g>

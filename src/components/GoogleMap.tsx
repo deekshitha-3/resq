@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { MapPin, Plane } from 'lucide-react';
 
@@ -63,30 +64,28 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
           <svg className="w-full h-full" viewBox="0 0 100 100">
             <path
               id="rescuePath"
-              d="M 20,80 C 30,65 40,60 50,50 S 70,35 85,15"
+              d="M 20,80 C 35,70 40,55 60,40 S 70,25 85,15"
               fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
+              stroke="#10b981"
+              strokeWidth="1.2"
               strokeLinecap="round"
-              className={`${getMapColor()} opacity-80`}
+              className="opacity-80"
             />
             
             <g transform="translate(85,15)">
-              <MapPin className="w-3 h-3 text-blue-500" />
+              <MapPin className="w-2.5 h-2.5 text-blue-500" />
             </g>
             
-            <g>
-              <animateMotion
-                dur="12s"
-                repeatCount="indefinite"
-                path="M 20,80 C 30,65 40,60 50,50 S 70,35 85,15"
-                rotate="auto"
-              >
-                <g>
-                  <Plane className="w-2 h-2 text-blue-500" />
-                </g>
-              </animateMotion>
-            </g>
+            <animateMotion
+              dur="15s"
+              repeatCount="indefinite"
+              path="M 20,80 C 35,70 40,55 60,40 S 70,25 85,15"
+              rotate="auto"
+            >
+              <g>
+                <Plane className="w-2 h-2 text-blue-500" />
+              </g>
+            </animateMotion>
           </svg>
         </div>
       )}

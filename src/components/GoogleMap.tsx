@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { MapPin, Plane } from 'lucide-react';
 
@@ -66,20 +65,18 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
               id="rescuePath"
               d="M 20,80 C 35,70 40,55 60,40 S 70,25 85,15"
               fill="none"
-              stroke="#10b981"
+              stroke="#4CAFFF"
               strokeWidth="1.2"
               strokeLinecap="round"
               className="opacity-80"
             />
             
-            {/* Very small start point with flight icon */}
             <g transform="translate(20,80)">
-              <Plane className="w-1 h-1 text-blue-500" />
+              <Plane className="w-0.5 h-0.5 text-resq-blue" />
             </g>
             
-            {/* Very small end point with location pin */}
             <g transform="translate(85,15)">
-              <MapPin className="w-1 h-1 text-blue-500" />
+              <MapPin className="w-0.5 h-0.5 text-resq-blue" />
             </g>
             
             <animateMotion
@@ -89,7 +86,7 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
               rotate="auto"
             >
               <g>
-                <Plane className="w-1 h-1 text-blue-500" />
+                <Plane className="w-0.5 h-0.5 text-resq-blue" />
               </g>
             </animateMotion>
           </svg>

@@ -67,3 +67,8 @@ For collaborations, ideas, or suggestions:
 
 # 🚀 Together, let's build a safer, smarter world.  
 *"Technology shouldn't wait for disaster. It should act before it's too late."*
+
+---
+
+## 📜 License
+This project is licensed under the [MIT License](LICENSE).

@@ -1,69 +1,69 @@
-# Welcome to your Lovable project
+# ResQ 🚨 – AI-Powered Disaster Detection & Response System
 
-## Project info
+**ResQ** is an end-to-end AI-powered system that detects floods and wildfires in real-time using satellite and drone imagery, and connects disaster victims to rescue teams through a user-friendly web application.
 
-**URL**: https://lovable.dev/projects/f1e73070-cb16-4df8-83ab-f19152769320
+Built with a mission to save lives by reducing response times, ResQ integrates **Machine Learning models** and **a Web App interface** — ensuring help reaches victims faster, smarter, and when it’s needed the most.
 
-## How can I edit this code?
+🌐 **Try the Web App:** [https://resq.lovable.app](https://resq.lovable.app)
 
-There are several ways of editing your application.
+---
 
-**Use Lovable**
+## 🚀 Features
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/f1e73070-cb16-4df8-83ab-f19152769320) and start prompting.
+### ML Model
+- **Flood Detection Model:** Processes real-time satellite imagery (Sentinel-1 SAR & NOAA-20 VIIRS) to identify flood-affected areas with 92%+ accuracy.
+- **Victim Detection Model:** Detects humans and animals in satellite or drone images and flags high-risk zones for prioritized rescue operations.
 
-Changes made via Lovable will be committed automatically to this repo.
+### Web Application
+- **SOS Button:** Victims can send a distress signal instantly by pressing a single button.
+- **Live Location Capture:** Captures user's live location and checks for disaster presence via satellite mapping.
+- **Instant Alerting:** Automatically notifies NGOs, rescue teams, and authorities.
+- **Community Posts:** Generates a live post with location and situation to help volunteers and communities act faster.
+- **Shelter Mapping:** Displays nearest shelters and safe zones based on the detected disaster.
+- **Rescue Tracking:** Victims can track the approaching rescue teams through animated map paths.
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 🧠 Technologies Used
+- Python (for ML Models)
+- Streamlit (for ML Model Deployment)
+- Lovable.dev (for Web App Development)
+- HTML/CSS/TypeScript
+- React.js & Tailwind CSS
+- Google Maps (for location display)
+- Sentinel-1 SAR and NOAA-20 VIIRS Satellite Data
+- Roboflow (for Victim Detection Dataset Training)
+- Supabase (for backend and database)
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+---
 
-Follow these steps:
+## 📸 Showcase
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+| Flood Mapping Example | Wildfire Detection Example |
+|:---------------------:|:---------------------------:|
+| ![Flood Mapping Output](public/flood_outcome.png) | ![Wildfire Detection Output](public/wildefire_outcome.png) |
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+---
 
-# Step 3: Install the necessary dependencies.
-npm i
+## 🎥 Project Demo
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+Watch our full project demo and pitch here:  
+[![Watch the video](https://img.youtube.com/vi/XzWfe2Ka4xY/0.jpg)](https://youtu.be/XzWfe2Ka4xY)
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 📢 Get Involved
+I am expanding ResQ to detect tsunamis, landslides, and automate real-time social media alerts.  
+Feel free to **fork, star ⭐, and contribute** to make disaster rescue smarter and faster!
 
-**Use GitHub Codespaces**
+---
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## 📬 Contact
+For collaborations, ideas, or suggestions:  
+📧 Email: [deekshitha1325@gmail.com]  
+🔗 LinkedIn: [https://www.linkedin.com/in/deekshitha-m-b02649254/]
 
-## What technologies are used for this project?
+---
 
-This project is built with .
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/f1e73070-cb16-4df8-83ab-f19152769320) and click on Share -> Publish.
-
-## I want to use a custom domain - is that possible?
-
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+# 🚀 Together, let's build a safer, smarter world.  
+*"Technology shouldn't wait for disaster. It should act before it's too late."*

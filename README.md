@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Welcome to your Lovable project
 
 ## Project info
@@ -67,3 +68,7 @@ Simply open [Lovable](https://lovable.dev/projects/f1e73070-cb16-4df8-83ab-f1915
 ## I want to use a custom domain - is that possible?
 
 We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+=======
+# resq-model
+ML Model trained on Satellite and drone images for Flood, flood victim detection and Wildfire detection
+>>>>>>> resq-model/main

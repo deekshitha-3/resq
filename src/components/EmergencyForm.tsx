@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
@@ -40,7 +41,7 @@ const EmergencyForm: React.FC<EmergencyFormProps> = ({
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <label htmlFor="disaster-type" className="block text-sm font-medium text-gray-700">
-            Type of Emergency (optional)
+            Type of Emergency
           </label>
         </div>
         <Select onValueChange={onDisasterTypeChange}>

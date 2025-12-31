@@ -4,7 +4,9 @@
 
 Built with a mission to save lives by reducing response times, ResQ integrates **Machine Learning models** and **a Web App interface** — ensuring help reaches victims faster, smarter, and when it’s needed the most.
 
-🌐 **Try the Web App:** [https://resq.lovable.app](https://resq.lovable.app)
+Try ML Model: [https://resq-model.streamlit.app](https://resq-model.streamlit.app/) Please create your API key before trying the ML Model : [https://app.roboflow.com/login](https://app.roboflow.com/login)
+
+You can also check out the Web App built with Lovable for frontend: https://resq.lovable.app
 
 ---
 
